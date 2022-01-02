@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const dbConnection = async() => {
     try {
-        await mongoose.connect('mongodb+srv://MEAN_Angular_Avanzado:nUmC2UbeVdglHWdL@clustertraining.sjd20.mongodb.net/hospitalMean');
+        await mongoose.connect(process.env.DB_CONNECTION);
         console.log('DB Online')
     } catch (err) {
         console.log(err);
