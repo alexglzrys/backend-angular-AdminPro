@@ -1,0 +1,14 @@
+{
+  "name": "backend-adminpro",
+  "version": "1.0.0",
+  "description": "Backend para el proyecto de Angular AdminPro",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "alexglzrys@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
