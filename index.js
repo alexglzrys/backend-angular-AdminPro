@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('./database/config');
-
+const usuarios = require('./routes/usuarios')
 
 // Base de datos
 dbConnection();
@@ -16,12 +16,7 @@ const app = express();
 app.use(cors());        // Permitir solicitudes de origenes cruzados (importante para APIs)
 
 // rutas
-app.get('/', (req, res) => {
-    res.status(200).json({
-        ok: true,
-        msg: 'Hola mundo'
-    });
-});
+app.use('/api/usuarios', usuarios);
 
 // Configuración de puerto
 app.listen(process.env.PORT, () => {
