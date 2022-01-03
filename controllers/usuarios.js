@@ -64,18 +64,13 @@ const actualizarUsuario = async(req = request, res = response) => {
         }
 
         // Actualizaciones
-        const campos = req.body;
-        // borrar campos que no deseo actualizar en el modelo (se recomienda desestructurar los campos que quiero)
-        delete campos.password;
-        delete campos.google;
+        // Me interesa todo menos el password, google e email, por tanto desestructuro
+        const { password, google, email, ...campos } = req.body; 
 
         // Verificar si está actualizando en email
-        if (campos.email === usuarioDB.email) {
-            // No actualiza el email, lo eliminamos del cuerpo de la petición
-            delete campos.email;
-        } else {
+        if (email !== usuarioDB.email) {
             // desea actualizar email, comprobar que no este en uso
-            const emailExiste = await Usuario.findOne({ email: campos.email });
+            const emailExiste = await Usuario.findOne({ email });
             if (emailExiste) {
                 return res.status(400).json({
                     ok: false,
@@ -84,6 +79,9 @@ const actualizarUsuario = async(req = request, res = response) => {
             }
         }
 
+        // Inyecto en el objeto campos, el email
+        campos.email = email;
+        
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
 
         res.status(200).json({
