@@ -11,7 +11,8 @@ const HospitalSchema = Schema({
     usuario: {
         // Relacionar este documento con Otro Schema (un hospital es registrado por un usuario)
         type: Schema.Types.ObjectId,
-        re: 'Usuario'
+        ref: 'Usuario',
+        required: true
     }
 }, 
 { 
@@ -22,7 +23,6 @@ const HospitalSchema = Schema({
 // Evitar mandar el __v al momento de consultar un modelo
 HospitalSchema.method('toJSON', function() {
     const { __v, ...object } = this.toObject();
-    object.uid = _id;
     return object;
 })
 

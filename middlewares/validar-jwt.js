@@ -17,6 +17,9 @@ const validarJWT = (req= request, res = response, next) => {
     try {
         // Si todo es correcto, me interesa obtener el uid que viene en el payload
         const { uid } = jwt.verify(token, process.env.JWT_SECRET);
+        // Guardar el id del usuario en la petición
+        req.uid = uid;
+        
         next();
     } catch (err) {
         return res.status(401).json({

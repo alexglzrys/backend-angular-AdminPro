@@ -11,13 +11,13 @@ const MedicoSchema = Schema({
     usuario: {
         // Relacionar este documento con Otro Schema (un médico es registrado por un usuario)
         type: Schema.Types.ObjectId,
-        re: 'Usuario'
+        ref: 'Usuario'
     },
     hospital: {
         // Relacionar este documento con Otro Schema (un medico esta relacionado con un Hospital)
         // Declararlo como [{ ... }] si es una relación Uno a muchos
         type: Schema.Types.ObjectId,
-        re: 'Hospital'
+        ref: 'Hospital'
     }
 });
 
