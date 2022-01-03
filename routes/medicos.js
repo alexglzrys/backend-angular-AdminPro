@@ -12,6 +12,8 @@ router.post('/', [
     validarJWT,
     check('nombre', 'El nombre del médico es un dato requerido').notEmpty(),
     check('hospital', 'El hospital asociado es un dato requerido').notEmpty(),
+    // Debe ser un id de documento MongoDB válido
+    check('hospital', 'El hospital debe ser un dato válido').isMongoId(),
     validarCampos
 ], crearMedico);
 router.put('/:id', actualizarMedico);
