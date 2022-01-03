@@ -7,6 +7,7 @@ const { dbConnection } = require('./database/config');
 const usuarios = require('./routes/usuarios');
 const auth = require('./routes/auth');
 const hospitales = require('./routes/hospitales');
+const medicos = require('./routes/medicos');
 
 // Base de datos
 dbConnection();
@@ -22,6 +23,7 @@ app.use(express.json());        // Lectura y parseo del body
 app.use('/api/usuarios', usuarios);
 app.use('/api/login', auth);
 app.use('/api/hospitales', hospitales);
+app.use('/api/medicos', medicos);
 
 // Configuración de puerto
 app.listen(process.env.PORT, () => {
