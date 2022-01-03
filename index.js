@@ -13,7 +13,8 @@ dbConnection();
 const app = express();
 
 // Middlewares
-app.use(cors());        // Permitir solicitudes de origenes cruzados (importante para APIs)
+app.use(cors());                // Permitir solicitudes de origenes cruzados (importante para APIs)
+app.use(express.json());        // Lectura y parseo del body
 
 // rutas
 app.use('/api/usuarios', usuarios);
