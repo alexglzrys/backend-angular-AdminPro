@@ -1,11 +1,23 @@
 const { request, response } = require("express");
 const Hospital = require("../models/Hospital");
 
-const getHospitales = (req = request, res = response) => {
-    res.status(200).json({
-        ok: true,
-        msg: 'get hospitales'
-    });
+const getHospitales = async(req = request, res = response) => {
+    try {
+        // consultar todos los hospitales registrados
+        // Poblar el campo usuario (id documento), con el nombre e imagen del usuario relacionado
+        const hospitales = await Hospital.find().populate('usuario', 'nombre img');
+
+        res.status(200).json({
+            ok: true,
+            hospitales
+        });
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+        console.log(err);
+    }
 };
 
 const crearHospital = async(req = request, res = response) => {
