@@ -1,4 +1,5 @@
 const { request, response } = require("express");
+const { validationResult } = require("express-validator");
 const Usuario = require("../models/Usuario");
 
 const getUsuarios = async(req = request, res = response) => {
@@ -12,6 +13,15 @@ const getUsuarios = async(req = request, res = response) => {
 
 const crearUsuario = async(req = request, res = response) => {
     const { email, password, nombre } = req.body;
+
+    // Verificar errores de validación (express-validator)
+    const errores = validationResult(req);
+    if (!errores.isEmpty()) {
+        return res.status(400).json({
+            ok: false,
+            errors: errores.mapped()
+        });
+    }
 
     try {
         // Verificar duplicidad de email
