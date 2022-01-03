@@ -81,7 +81,7 @@ const actualizarUsuario = async(req = request, res = response) => {
 
         // Inyecto en el objeto campos, el email
         campos.email = email;
-        
+
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
 
         res.status(200).json({
@@ -96,8 +96,33 @@ const actualizarUsuario = async(req = request, res = response) => {
     }
 }
 
+const eliminarUsuario = async(req = request, res = response) => {
+    const uid = req.params.id;
+
+    try {
+        const usuarioEliminado = await Usuario.findByIdAndDelete(uid);
+        if (usuarioEliminado) {
+            res.status(200).json({
+                ok: true,
+                uid
+            });
+        } else {
+            res.status(400).json({
+                ok: false,
+                msg: 'No se encontró el usuario con el ID especificado'
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+    }
+}
+
 module.exports = {
     getUsuarios,
     crearUsuario,
     actualizarUsuario,
+    eliminarUsuario,
 }
