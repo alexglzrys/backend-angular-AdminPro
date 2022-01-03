@@ -28,4 +28,11 @@ const UsuarioSchema = Schema({
     }
 });
 
+// Evitar mandar el __v y _id al momento de consultar un modelo
+UsuarioSchema.method('toJSON', function() {
+    const { __v, _id, ...object } = this.toObject();
+    object.uid = _id;
+    return object;
+})
+
 module.exports = model('Usuario', UsuarioSchema);

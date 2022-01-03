@@ -1,10 +1,12 @@
 const { request, response } = require("express");
 const Usuario = require("../models/Usuario");
 
-const getUsuarios = (req, res) => {
+const getUsuarios = async(req = request, res = response) => {
+    // Recuperar usuarios registrados en base de datos
+    const usuarios = await Usuario.find({}, 'nombre email role google');
     res.status(200).json({
         ok: true,
-        msg: 'get usuarios'
+        usuarios
     });
 }
 
