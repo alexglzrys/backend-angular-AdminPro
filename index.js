@@ -4,7 +4,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('./database/config');
-const usuarios = require('./routes/usuarios')
+const usuarios = require('./routes/usuarios');
+const auth = require('./routes/auth');
 
 // Base de datos
 dbConnection();
@@ -18,6 +19,7 @@ app.use(express.json());        // Lectura y parseo del body
 
 // rutas
 app.use('/api/usuarios', usuarios);
+app.use('/api/login', auth);
 
 // Configuración de puerto
 app.listen(process.env.PORT, () => {
