@@ -47,7 +47,59 @@ const crearUsuario = async(req = request, res = response) => {
     
 }
 
+const actualizarUsuario = async(req = request, res = response) => {
+    // Recuperar parametro enviado en la ruta
+    const uid = req.params.id;
+
+    // TODO: Validar token 
+
+    try {
+        // Localizar usuario por su id
+        const usuarioDB = await Usuario.findById(uid);
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe un usuaro con el id especificado'
+            });
+        }
+
+        // Actualizaciones
+        const campos = req.body;
+        // borrar campos que no deseo actualizar en el modelo (se recomienda desestructurar los campos que quiero)
+        delete campos.password;
+        delete campos.google;
+
+        // Verificar si está actualizando en email
+        if (campos.email === usuarioDB.email) {
+            // No actualiza el email, lo eliminamos del cuerpo de la petición
+            delete campos.email;
+        } else {
+            // desea actualizar email, comprobar que no este en uso
+            const emailExiste = await Usuario.findOne({ email: campos.email });
+            if (emailExiste) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'El nuevo email ya se encuentra en uso por otro usuario'
+                });
+            }
+        }
+
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
+
+        res.status(200).json({
+            ok: true,
+            usuario: usuarioActualizado
+        });
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+    }
+}
+
 module.exports = {
     getUsuarios,
-    crearUsuario
+    crearUsuario,
+    actualizarUsuario,
 }

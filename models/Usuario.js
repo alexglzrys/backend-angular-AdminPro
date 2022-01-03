@@ -28,9 +28,9 @@ const UsuarioSchema = Schema({
     }
 });
 
-// Evitar mandar el __v y _id al momento de consultar un modelo
+// Evitar mandar el __v, password, y _id al momento de consultar un modelo
 UsuarioSchema.method('toJSON', function() {
-    const { __v, _id, ...object } = this.toObject();
+    const { __v, _id, password, ...object } = this.toObject();
     object.uid = _id;
     return object;
 })
