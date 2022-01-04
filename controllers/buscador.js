@@ -35,6 +35,47 @@ const buscadorGeneral = async(req = request, res = response) => {
     });
 }
 
+const buscarPorColeccion = async(req = request, res = response) => {
+    // 
+    const coleccion = req.params.coleccion;
+    const busqueda = req.params.busqueda;
+
+    // Expresion regular: LIKE
+    const regexBusqueda = new RegExp(busqueda, 'i');
+
+    // Buscar en la colección especificada
+    data = null;
+
+    switch(coleccion) {
+        case 'usuarios':
+            data = await Usuario.find({ nombre: regexBusqueda});
+            break;
+        case 'medicos':
+            data = await Medico.find({ nombre: regexBusqueda })
+                                .populate('usuario', 'nombre img')
+                                .populate('hospital', 'nombre img');
+            break;
+        case 'hospitales':
+            data = await Hospital.find({ nombre: regexBusqueda })
+                                 .populate('usuario', 'nombre img');
+            break;
+        default: 
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe la colección especificada, posibles colecciones de búsqueda son: usuarios|medicos|hospitales',
+                coleccion
+            });
+    }
+
+    // Mandar los resultados encontrados
+    res.status(200).json({
+        ok: true,
+        coleccion,
+        resultados: data
+    });
+}
+
 module.exports = {
-    buscadorGeneral
+    buscadorGeneral,
+    buscarPorColeccion
 }
