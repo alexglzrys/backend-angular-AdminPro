@@ -1,4 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
+const fs = require('fs');
 const { request, response } = require("express");
 const { actualizarImagen } = require('../helpers/actualizar-imagen');
 
@@ -76,6 +78,25 @@ const fileUpload = (req = request, res = response) => {
     });
 }
 
+const getImagen = (req = request, res = response) => {
+    const coleccion = req.params.coleccion;
+    const nombreImagen = req.params.archivo;
+
+    // Generar ruta de archivo
+    const realPathImage = path.join(__dirname, `../uploads/${coleccion}/${nombreImagen}`);
+
+    // Verificar si la imagen solicitada existe
+    if (!fs.existsSync(realPathImage)) {
+        // envíar una imagen por defecto
+        const imagenDefault = path.join(__dirname, '../uploads/default.jpg');
+        return res.sendFile(imagenDefault);
+    }
+
+    // Servir imagen
+    res.sendFile(realPathImage);
+}
+
 module.exports = {
     fileUpload,
+    getImagen,
 }
