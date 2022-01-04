@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const { request, response } = require("express");
+const { actualizarImagen } = require('../helpers/actualizar-imagen');
 
 const fileUpload = (req = request, res = response) => {
     // Obtener la colección y el id del documento a asignarle una imagen
@@ -56,6 +57,14 @@ const fileUpload = (req = request, res = response) => {
                 msg: 'Error interno en el servior, no se pudo subir el archivo'
             });
            
+        }
+        
+        // Actualizar el registro en base de datos
+        if (!actualizarImagen(coleccion, id, nombreArchivo)) {
+            return res.status(500).json({
+                ok: false,
+                msg: 'El usuario no existe'
+            });
         }
 
         // Confirmación de upload exitoso
