@@ -13,7 +13,7 @@ const getUsuarios = async(req = request, res = response) => {
     const [usuarios, total] = await Promise.all([
         // Recuperar usuarios registrados en base de datos
         // Paginarlos de 5 en 5
-        Usuario.find({}, 'nombre email role google').skip(desde).limit(5),
+        Usuario.find({}, 'nombre email role google img').skip(desde).limit(5),
 
         // Total de registros
         Usuario.count()
