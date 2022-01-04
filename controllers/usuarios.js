@@ -4,11 +4,32 @@ const Usuario = require("../models/Usuario");
 const { generarJWT } = require("../helpers/jwt");
 
 const getUsuarios = async(req = request, res = response) => {
+    // Recuperar queryString de ruta (páginación)
+    const desde = Number(req.query.desde) || 0;
+
+    // Optimizar las siguientes tareas asincronas (el resultado de una no depende de la otra)
+    // No importa quien resuelve primero, una no espera a la otra hasta que termine.
+    // cuando tenga las dos promesas resueltas, continua ejecutandose el código (respuesta json)
+    const [usuarios, total] = await Promise.all([
+        // Recuperar usuarios registrados en base de datos
+        // Paginarlos de 5 en 5
+        Usuario.find({}, 'nombre email role google').skip(desde).limit(5),
+
+        // Total de registros
+        Usuario.count()
+    ]);
+
     // Recuperar usuarios registrados en base de datos
-    const usuarios = await Usuario.find({}, 'nombre email role google');
+    // Paginarlos de 5 en 5
+    // const usuarios = await Usuario.find({}, 'nombre email role google').skip(desde).limit(5);
+    
+    // Total de registros
+    // const total = await Usuario.count();
+
     res.status(200).json({
         ok: true,
-        usuarios
+        usuarios,
+        total
     });
 }
 
