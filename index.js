@@ -8,6 +8,7 @@ const usuarios = require('./routes/usuarios');
 const auth = require('./routes/auth');
 const hospitales = require('./routes/hospitales');
 const medicos = require('./routes/medicos');
+const buscador = require('./routes/buscador');
 
 // Base de datos
 dbConnection();
@@ -24,6 +25,7 @@ app.use('/api/usuarios', usuarios);
 app.use('/api/login', auth);
 app.use('/api/hospitales', hospitales);
 app.use('/api/medicos', medicos);
+app.use('/api/todo', buscador);
 
 // Configuración de puerto
 app.listen(process.env.PORT, () => {
