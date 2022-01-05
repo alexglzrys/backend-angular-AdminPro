@@ -33,6 +33,9 @@ app.use('/api/medicos', medicos);
 app.use('/api/todo', buscador);
 app.use('/api/uploads', upload);
 
+// Directorio archivos públicos
+app.use(express.static('./public'));
+
 // Configuración de puerto
 app.listen(process.env.PORT, () => {
     console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="689500073926-u7imktm5ub9gc8r5qbbj37206d8ntj1e.apps.googleusercontent.com">
+    <title>Demo SignIn - Google</title>
+</head>
+<body>
+    <!-- Documentación Sign-In Google para Sitios Web: 
+        https://developers.google.com/identity/sign-in/web/sign-in -->
+    <h2>Demo Google SignIn</h2>
+
+    <!-- Botón predeterminado de Google para Inicio de Sessión -->
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <br>
+    <!-- Enlace para cerrar sesión -->
+    <a href="#" onclick="signOut();">Sign out</a>
+
+    <!-- Cargar librería Plataforma Google -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- Script inicio y cierre de session -->
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+            // Generar Token para autenticarse con un servidor Backend (usando las librerías de Google)
+            // https://developers.google.com/identity/sign-in/web/backend-auth
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log(id_token);
+        }
+
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+            console.log('User signed out.');
+            });
+        }
+    </script>
+</body>
+</html>
