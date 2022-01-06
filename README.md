@@ -28,3 +28,6 @@ Postman permite documentar todos nuestros servicios (agrupados bajo una colecci�
 - Completar la descripción del servicio, así como la de cada endpoint si se creé necesario
 - Clic en la opción de **Published** situada en la parte superior derecha
 - Seleccionar la opción **Preview Documentation** para obtener el URL a compartir con el equipo de desarrollo
+
+### Documentación servicios para este proyecto
+- [documentación servicios](https://documenter.getpostman.com/view/18610065/UVXdMxyd#7c706178-f8cd-41d1-bbb0-abc64dd5b526)
