@@ -49,18 +49,69 @@ const crearMedico = async(req = request, res = response) => {
     }
 };
 
-const actualizarMedico = (req = request, res = response) => {
-    res.status(200).json({
-        ok: true,
-        msg: 'actualizar medico'
-    });
+const actualizarMedico = async(req = request, res = response) => {
+    try {
+        // Recuperar el id del médico a actualizar
+        const id = req.params.id;
+        // Recuperar el id del usuario que lleva a cabo esta gestión
+        const uid = req.uid;
+        // Verificar si el médico existe en base de datos
+        const medico = await Medico.findById(id);
+        if (!medico) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El médico no existe en la base de datos'
+            });
+        }
+        // Actualizar datos
+        const nuevosDatos = {
+            ...req.body,
+            usuario: uid
+        };
+        // Guardar cambios en base de datos
+        const medicoActualizado = await Medico.findByIdAndUpdate(id, nuevosDatos, { new: true })
+                                              .populate('usuario', 'nombre img')
+                                              .populate('hospital', 'nombre img');
+
+        res.status(200).json({
+            ok: true,
+            medico: medicoActualizado
+        });
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+        console.log(err)
+    }
+    
 };
 
-const eliminarMedico = (req = request, res = response) => {
-    res.status(200).json({
-        ok: true,
-        msg: 'eliminar medico'
-    });
+const eliminarMedico = async(req = request, res = response) => {
+    try {
+        // Recuperar id del médico a eliminar
+        const id = req.params.id;
+        // Buscar medico
+        const medico = await Medico.findById(id);
+        if (!medico) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'El médico no existe en la base de datos'
+            });
+        }
+        // Eliminar médico de base de datos
+        await Medico.findByIdAndRemove(id);
+        res.status(200).json({
+            ok: true,
+            msg: 'Médico eliminado'
+        });
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+        console.log(err)
+    }
 };
 
 module.exports = {
