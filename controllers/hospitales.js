@@ -46,11 +46,43 @@ const crearHospital = async(req = request, res = response) => {
     }
 };
 
-const actualizarHospital = (req = request, res = response) => {
-    res.status(200).json({
-        ok: true,
-        msg: 'actualizar hospitales'
-    });
+const actualizarHospital = async(req = request, res = response) => {
+    try {
+        // Recuperar el id del hospital
+        const id = req.params.id;
+        // Recuperar el uid del usuario que esta llevando a cabo la actualización
+        const uid = req.uid;
+
+        // Verificar si existe el registro
+        const hospitalDB = await Hospital.findById(id);
+        if (!hospitalDB) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Hospital no encontrado con el id especificado'
+            });
+        }
+
+        // Actualizar los datos del hospital (incluyendo el id de la persona que esta llevando a cabo esta tarea)
+        const cambiosHospital = {
+            ...req.body,
+            usuario: uid
+        }
+        
+        const hospitalActualizado = await Hospital.findByIdAndUpdate(id, cambiosHospital, { new: true });
+
+        res.status(200).json({
+            ok: true,
+            msg: 'actualizar hospitales',
+            hospitalActualizado
+        });
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+        console.log(err);
+    }
+    
 };
 
 const eliminarHospital = (req = request, res = response) => {
