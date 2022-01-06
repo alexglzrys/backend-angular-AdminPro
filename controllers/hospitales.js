@@ -72,7 +72,6 @@ const actualizarHospital = async(req = request, res = response) => {
 
         res.status(200).json({
             ok: true,
-            msg: 'actualizar hospitales',
             hospitalActualizado
         });
     } catch (err) {
@@ -85,11 +84,34 @@ const actualizarHospital = async(req = request, res = response) => {
     
 };
 
-const eliminarHospital = (req = request, res = response) => {
-    res.status(200).json({
-        ok: true,
-        msg: 'eliminar hospitales'
-    });
+const eliminarHospital = async(req = request, res = response) => {
+    try {
+        // Recuperar el id del hospital
+        const id = req.params.id;
+
+        // Verificar si existe el registro
+        const hospitalDB = await Hospital.findById(id);
+        if (!hospitalDB) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Hospital no encontrado con el id especificado'
+            });
+        }
+
+        // Eliminar el hospital por su id
+        await Hospital.findByIdAndRemove(id);
+
+        res.status(200).json({
+            ok: true,
+            msg: 'Hospital eliminado'
+        });
+    } catch (erro) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+        console.log(err);
+    }
 };
 
 module.exports = {

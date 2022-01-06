@@ -17,6 +17,6 @@ router.put('/:id', [
     check('nombre', 'El nombre del hospital es un dato requerido').notEmpty(),
     validarCampos
 ], actualizarHospital);
-router.delete('/:id', eliminarHospital);
+router.delete('/:id', validarJWT, eliminarHospital);
 
 module.exports = router;
