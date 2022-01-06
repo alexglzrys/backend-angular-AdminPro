@@ -91,7 +91,24 @@ const googleSignIn = async(req = request, res = response) => {
     
 }
 
+const renewToken = async(req = request, res = response) => {
+    // Llegar a este punto, se supone que ya tengo el uid del usuario en la petición
+    const uid = req.uid;
+
+    // Generar un nuevo JWT.
+    // Esta técnica no tiene que esperar hasta que el JWT caduque (por que ya no sería válido), 
+    // En este sentido, por cada petición, se renueva el token actual.
+    const newToken = await generarJWT(uid);
+
+    res.status(200).json({
+        ok: true,
+        msg: 'Token renovado',
+        newToken
+    })
+}
+
 module.exports = {
     login,
     googleSignIn,
+    renewToken,
 }
