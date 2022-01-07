@@ -100,10 +100,14 @@ const renewToken = async(req = request, res = response) => {
     // En este sentido, por cada petición, se renueva el token actual.
     const newToken = await generarJWT(uid);
 
+    // Obtener la información del usuario
+    const usuario = await Usuario.findById(uid).select('-password');
+
     res.status(200).json({
         ok: true,
         msg: 'Token renovado',
-        newToken
+        newToken,
+        usuario
     })
 }
 
