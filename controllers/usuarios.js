@@ -105,9 +105,16 @@ const actualizarUsuario = async(req = request, res = response) => {
             }
         }
 
-        // Inyecto en el objeto campos, el email
-        campos.email = email;
-
+        // Inyecto en el objeto campos, suarios de Google no pueden actualizar su correo
+        if (!usuarioDB.google) {
+            campos.email = email;
+        } else {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Usuarios logeados con cuenta de Google, no pueden actualizar su email'
+            });
+        }
+        
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
 
         res.status(200).json({
