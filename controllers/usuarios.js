@@ -102,18 +102,19 @@ const actualizarUsuario = async(req = request, res = response) => {
                     ok: false,
                     msg: 'El nuevo email ya se encuentra en uso por otro usuario'
                 });
+            } else {
+                if (usuarioDB.google) {
+                    return res.status(400).json({
+                        ok: false,
+                        msg: 'Usuarios logeados con cuenta de Google, no pueden actualizar su email'
+                    });
+                }
             }
         }
 
         // Inyecto en el objeto campos, suarios de Google no pueden actualizar su correo
-        if (!usuarioDB.google) {
-            campos.email = email;
-        } else {
-            return res.status(400).json({
-                ok: false,
-                msg: 'Usuarios logeados con cuenta de Google, no pueden actualizar su email'
-            });
-        }
+        campos.email = email;
+      
         
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
 
