@@ -3,16 +3,24 @@ const Medico = require("../models/Medico");
 
 const getMedicos = async(req = request, res = response) => {
     try {
+        // Recuperar queryString de ruta (páginación)
+        const desde = Number(req.query.desde) || 0;
+
         // consultar todos los médicos registrados
         // Poblar el campo usuario (id documento), con el nombre e imagen del usuario relacionado
         // Poblar el campo hospital (id documento), con el nombre e imagen del hospital relacionado
         const medicos = await Medico.find()
                                     .populate('usuario', 'nombre img')
                                     .populate('hospital', 'nombre img')
+                                    .skip(desde).limit(5);
+
+        const total = await Medico.count();
+        
 
         res.status(200).json({
             ok: true,
-            medicos
+            medicos,
+            total
         });
     } catch (err) {
         res.status(500).json({
