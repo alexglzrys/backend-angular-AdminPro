@@ -31,6 +31,31 @@ const getMedicos = async(req = request, res = response) => {
     }
 };
 
+const getMedicoById = async(req = request, res = response) => {
+    try {
+        // Recuperar parametro de ruta (id del médico a buscar)
+        const id = req.params.id;
+
+        // consultar el médico registrado
+        // Poblar el campo usuario (id documento), con el nombre e imagen del usuario relacionado
+        // Poblar el campo hospital (id documento), con el nombre e imagen del hospital relacionado
+        const medico = await Medico.findById(id)
+                                    .populate('usuario', 'nombre img')
+                                    .populate('hospital', 'nombre img');
+
+        res.status(200).json({
+            ok: true,
+            medico,
+        });
+    } catch (err) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Error interno en el servidor'
+        });
+        console.log(err);
+    }
+};
+
 const crearMedico = async(req = request, res = response) => {
     try {
         // Recuperar id usuario encargado de llevar a cabo el registro
@@ -126,5 +151,6 @@ module.exports = {
     getMedicos,
     crearMedico,
     actualizarMedico,
-    eliminarMedico
+    eliminarMedico,
+    getMedicoById,
 }
