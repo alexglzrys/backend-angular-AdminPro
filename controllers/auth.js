@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const Usuario = require("../models/Usuario");
 const { generarJWT } = require("../helpers/jwt");
 const { googleVerify } = require("../helpers/google-verify");
+const { menuFrontend } = require("../helpers/menu-frontend");
 
 const login = async(req = request, res = response) => {
     const { email, password } = req.body;
@@ -31,7 +32,9 @@ const login = async(req = request, res = response) => {
 
         res.status(200).json({
             ok: true,
-            token
+            token,
+            // Inyectar opciones de menu para este usuario logeado
+            menu: menuFrontend(usuarioDB.role)
         });
     } catch (err) {
         res.status(500).json({
@@ -80,7 +83,9 @@ const googleSignIn = async(req = request, res = response) => {
 
         res.status(200).json({
             ok: true,
-            token
+            token,
+            // Inyectar opciones de menu para este usuario logeado
+            menu: menuFrontend(myUser.role)
         });
     } catch (err) {
         res.status(500).json({
@@ -107,7 +112,9 @@ const renewToken = async(req = request, res = response) => {
         ok: true,
         msg: 'Token renovado',
         newToken,
-        usuario
+        usuario,
+        // Inyectar opciones de menu para este usuario logeado
+        menu: menuFrontend(usuario.role)
     })
 }
 
