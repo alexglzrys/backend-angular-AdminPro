@@ -4,6 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const path = require('path')
 
 const { dbConnection } = require('./database/config');
 const usuarios = require('./routes/usuarios');
@@ -12,6 +13,7 @@ const hospitales = require('./routes/hospitales');
 const medicos = require('./routes/medicos');
 const buscador = require('./routes/buscador');
 const upload = require('./routes/uploads');
+const { request, response } = require('express');
 
 // Base de datos
 dbConnection();
@@ -35,6 +37,12 @@ app.use('/api/uploads', upload);
 
 // Directorio archivos públicos
 app.use(express.static('./public'));
+
+// Cualquier otra ruta va a mostrar el archivo index.html (App Angular)
+// Configuración especial para usar rutas sin el hash #.
+app.get('*', (req = request, res = response) => {
+    res.sendFile(path.resolve(__dirname, 'public/index.html'));
+})
 
 // Configuración de puerto
 app.listen(process.env.PORT, () => {
