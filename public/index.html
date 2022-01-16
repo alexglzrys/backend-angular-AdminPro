@@ -1,47 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-signin-client_id" content="689500073926-bmqaoupnfdigj6hn3k58mlth5v98b32s.apps.googleusercontent.com">
-    <title>Demo SignIn - Google</title>
-</head>
-<body>
-    <!-- Documentación Sign-In Google para Sitios Web: 
-        https://developers.google.com/identity/sign-in/web/sign-in -->
-    <h2>Demo Google SignIn</h2>
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <title>Angular AdminPro</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Sign In -->
+  <meta name="google-signin-client_id" content="689500073926-bmqaoupnfdigj6hn3k58mlth5v98b32s.apps.googleusercontent.com">
 
-    <!-- Botón predeterminado de Google para Inicio de Sessión -->
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <br>
-    <!-- Enlace para cerrar sesión -->
-    <a href="#" onclick="signOut();">Sign out</a>
+  <!-- Toastr -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-    <!-- Cargar librería Plataforma Google -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/images/favicon.png">
+  <style>@media print{*,::after,::before{text-shadow:none!important;box-shadow:none!important}p{orphans:3;widows:3}}html{box-sizing:border-box;font-family:sans-serif;line-height:1.15;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent}*,::after,::before{box-sizing:inherit}@-ms-viewport{width:device-width}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:1rem;font-weight:400;line-height:1.5;color:#212529;background-color:#fff}p{margin-top:0;margin-bottom:1rem}</style><link href="./assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="./assets/plugins/bootstrap/css/bootstrap.min.css"></noscript>
+  <!-- Custom CSS -->
+  <style>@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700");@import url(../scss/icons/font-awesome/css/font-awesome.min.css);@import url(../scss/icons/simple-line-icons/css/simple-line-icons.css);@import url(../scss/icons/weather-icons/css/weather-icons.min.css);@import url(../scss/icons/linea-icons/linea.css);@import url(../scss/icons/themify-icons/themify-icons.css);@import url(../scss/icons/flag-icon-css/flag-icon.min.css);@import url(../scss/icons/material-design-iconic-font/css/materialdesignicons.min.css);@import url(../css/spinners.css);@import url(../css/animate.css);*{outline:none}body{background:#fff;font-family:"Montserrat", sans-serif;margin:0;overflow-x:hidden;color:#67757c;font-weight:300}html{position:relative;min-height:100%;background:#ffffff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}@media (min-width: 768px){}@media (max-width: 767px){}</style><link href="./assets/css/style.css" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="./assets/css/style.css"></noscript>
+  <!-- You can change the theme colors from here -->
+  <!-- Este tema solo se aplica a elementos que implementen en layout de página que incorpora header, sidebar, content -->
+  <link id="theme" rel="stylesheet">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+<link rel="stylesheet" href="styles.285b5d0691d81baca118.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles.285b5d0691d81baca118.css"></noscript></head>
+<body class="fix-header card-no-border fix-sidebar">
+  <!-- ============================================================== -->
+  <!-- Preloader - style you can find in spinners.css -->
+  <!-- ============================================================== -->
+  <div class="preloader">
+    <div class="loader">
+        <div class="loader__figure"></div>
+        <p class="loader__label">Admin Pro</p>
+    </div>
+  </div>
 
-    <!-- Script inicio y cierre de session -->
-    <script>
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-            console.log('Name: ' + profile.getName());
-            console.log('Image URL: ' + profile.getImageUrl());
-            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  <app-root></app-root>
 
-            // Generar Token para autenticarse con un servidor Backend (usando las librerías de Google)
-            // https://developers.google.com/identity/sign-in/web/backend-auth
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log(id_token);
-        }
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <script src="./assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="./assets/plugins/bootstrap/js/popper.min.js"></script>
+  <script src="./assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <!-- slimscrollbar scrollbar JavaScript -->
+  <script src="./assets/js/perfect-scrollbar.jquery.min.js"></script>
+  <!--Wave Effects -->
+  <script src="./assets/js/waves.js"></script>
+  <!--Menu sidebar -->
+  <script src="./assets/js/sidebarmenu.js" id="sidebarmenu"></script>
+  <!--stickey kit -->
+  <script src="./assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+  <script src="./assets/plugins/sparkline/jquery.sparkline.min.js"></script>
+  <!--Custom JavaScript -->
+  <script src="./assets/js/custom.js"></script>
+  <!-- ============================================================== -->
+  <!-- Style switcher -->
+  <!-- ============================================================== -->
+  <script src="./assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+  <!-- Google Sign In -->
+  <!-- Se debe llamar la función ?onload=renderButton, cuando el componente de login este listo -->
+  <script src="https://apis.google.com/js/platform.js" async="" defer></script>
+  <!-- Librería toastr -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="runtime.fc3400b9961e4064df8c.js" defer></script><script src="polyfills.984f615ed2beed677957.js" defer></script><script src="main.30176842e911f7178fed.js" defer></script>
 
-        function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-            console.log('User signed out.');
-            });
-        }
-    </script>
-</body>
-</html>
+</body></html>
